@@ -1,5 +1,4 @@
-// src/hooks/useFetchProfile.js
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const useFetchProfile = (webAppInitData) => {
@@ -10,7 +9,7 @@ const useFetchProfile = (webAppInitData) => {
   const fetchProfile = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/user/profile`,
+        `${import.meta.env.VITE_API_URL}/user/profile`,
         {
           headers: {
             "x-api-key": import.meta.env.VITE_API_KEY,

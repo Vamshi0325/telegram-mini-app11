@@ -1,25 +1,24 @@
-// src/hooks/useWebAppData.js
 import { useEffect, useState } from "react";
 
 const useWebAppData = () => {
   const [webAppInitData, setWebAppInitData] = useState(null);
-  const [initDataLoading, setInitDataLoading] = useState(true);
+  const [initDataLoading, setInitDataLoading] = useState(false);
 
   useEffect(() => {
+    setInitDataLoading(true);
     const fetchWebAppInitData = () => {
       if (
         window.Telegram &&
         window.Telegram.WebApp &&
         window.Telegram.WebApp.initData
       ) {
-        console.log("initData", window.Telegram.WebApp.initData);
+        console.log("initData:", window.Telegram.WebApp.initData);
 
         return window.Telegram.WebApp.initData;
       }
       return null;
     };
 
-    // Capture initData from Telegram Web App
     const initData = fetchWebAppInitData();
     if (initData) {
       setWebAppInitData(initData);

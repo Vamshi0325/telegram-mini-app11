@@ -1,29 +1,23 @@
-// src/hooks/useRegisterUser.js
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const useRegisterUser = (webAppInitData) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [user, setUser] = useState({});
 
-  console.log("Sending initData to backend:", webAppInitData);
-
-  const handleOnBoarderUser = async (webAppInitData) => {
+  const handleOnBoardedUser = async (webAppInitData) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api`,
+        `${import.meta.env.VITE_API_URL}/user/start`,
         {}, // Empty body
         {
           headers: {
             "x-api-key": import.meta.env.VITE_API_KEY,
             "x-client-id": import.meta.env.VITE_CLIENT_ID,
-            "init-data": webAppInitData, // Send initData in the headers
+            "init-data": webAppInitData,
           },
         }
       );
-
-      console.log("Response from backend:", response.data);
-      return response.data;
+      return response.data; // Return the onboarded user data
     } catch (error) {
       console.error("Error during onboarding:", error);
       return null;
@@ -33,10 +27,9 @@ const useRegisterUser = (webAppInitData) => {
   useEffect(() => {
     const initializeUser = async () => {
       if (webAppInitData) {
-        const onboardedUser = await handleOnBoarderUser(webAppInitData);
-        if (onboardedUser?.user) {
-          setUser(onboardedUser.user);
-          setToken(onboardedUser.token);
+        const onBoardedUser = await handleOnBoardedUser(webAppInitData);
+        if (onBoardedUser?.user?.id) {
+          setUser(onBoardedUser.user);
         }
       }
     };
@@ -44,7 +37,7 @@ const useRegisterUser = (webAppInitData) => {
     initializeUser();
   }, [webAppInitData]);
 
-  return { user, token };
+  return { onBoardedUser: user };
 };
 
 export default useRegisterUser;
