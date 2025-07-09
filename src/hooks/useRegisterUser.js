@@ -9,7 +9,7 @@ const useRegisterUser = (webAppInitData) => {
   const handleOnBoarderUser = async (webAppInitData) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/start`,
+        `${import.meta.env.VITE_API_URL}/api/`,
         {}, // Empty body
         {
           headers: {
