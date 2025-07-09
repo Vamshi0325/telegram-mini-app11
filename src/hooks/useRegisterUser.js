@@ -13,10 +13,12 @@ const useRegisterUser = (webAppInitData) => {
           headers: {
             "x-api-key": import.meta.env.VITE_API_KEY,
             "x-client-id": import.meta.env.VITE_CLIENT_ID,
-            "init-data": webAppInitData,
+            "init-data": webAppInitData, // Ensure you're passing the init-data
           },
         }
       );
+      console.log("Onboarding response:", response.data);
+      
       return response.data; // Return the onboarded user data
     } catch (error) {
       console.error("Error during onboarding:", error);
@@ -28,6 +30,8 @@ const useRegisterUser = (webAppInitData) => {
     const initializeUser = async () => {
       if (webAppInitData) {
         const onBoardedUser = await handleOnBoardedUser(webAppInitData);
+        console.log("onBoardedUser:", onBoardedUser);
+        
         if (onBoardedUser?.user?.id) {
           setUser(onBoardedUser.user);
         }

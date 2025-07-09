@@ -5,6 +5,9 @@ const useFetchProfile = (webAppInitData) => {
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
 
+  console.log("webAppInitData:", webAppInitData);
+  console.log("profile:", profile);
+
   // Fetch the user's profile from the backend
   const fetchProfile = async () => {
     try {
@@ -18,6 +21,8 @@ const useFetchProfile = (webAppInitData) => {
           },
         }
       );
+      console.log("Profile response:", response.data);
+
       setProfile(response.data); // Update the profile state
       setLoading(false);
     } catch (error) {
