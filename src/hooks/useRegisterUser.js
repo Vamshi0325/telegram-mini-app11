@@ -7,13 +7,11 @@ const useRegisterUser = (webAppInitData) => {
   const handleOnBoardedUser = async (webAppInitData) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/user/start`, // Ensure the API URL is correct
-        {}, // Send an empty body as init-data is passed in the headers
+        `${import.meta.env.VITE_API_URL}/user/start`,
+        {},
         {
           headers: {
-            "x-api-key": import.meta.env.VITE_API_KEY,
-            "x-client-id": import.meta.env.VITE_CLIENT_ID,
-            "init-data": webAppInitData, // Send init-data in headers
+            "init-data": webAppInitData,
           },
         }
       );
@@ -28,7 +26,6 @@ const useRegisterUser = (webAppInitData) => {
     const initializeUser = async () => {
       if (webAppInitData) {
         const onBoardedUser = await handleOnBoardedUser(webAppInitData);
-
         if (onBoardedUser?.user?.id) {
           setUser(onBoardedUser.user);
         }
