@@ -11,6 +11,8 @@ const useWebAppData = () => {
         window.Telegram.WebApp &&
         window.Telegram.WebApp.initData
       ) {
+        console.log("initData", window.Telegram.WebApp.initData);
+
         return window.Telegram.WebApp.initData;
       }
       return null;
