@@ -5,9 +5,6 @@ const useFetchProfile = (webAppInitData) => {
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
 
-  console.log("webAppInitData:", webAppInitData);
-  console.log("profile:", profile);
-
   // Fetch the user's profile from the backend
   const fetchProfile = async () => {
     try {
@@ -17,11 +14,12 @@ const useFetchProfile = (webAppInitData) => {
           headers: {
             "x-api-key": import.meta.env.VITE_API_KEY,
             "x-client-id": import.meta.env.VITE_CLIENT_ID,
-            "init-data": webAppInitData,
+            "init-data": webAppInitData, // Ensure you're passing the init-data
           },
         }
       );
-      console.log("Profile response:", response.data);
+
+      console.log("Fetched profile:", response.data);
 
       setProfile(response.data); // Update the profile state
       setLoading(false);

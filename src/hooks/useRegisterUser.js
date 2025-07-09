@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 const useRegisterUser = (webAppInitData) => {
   const [user, setUser] = useState({});
@@ -7,19 +7,17 @@ const useRegisterUser = (webAppInitData) => {
   const handleOnBoardedUser = async (webAppInitData) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/user/start`,
-        {}, // Empty body
+        `${import.meta.env.VITE_API_URL}/user/start`, // Ensure the API URL is correct
+        {}, // Send an empty body as init-data is passed in the headers
         {
           headers: {
             "x-api-key": import.meta.env.VITE_API_KEY,
             "x-client-id": import.meta.env.VITE_CLIENT_ID,
-            "init-data": webAppInitData, // Ensure you're passing the init-data
+            "init-data": webAppInitData, // Send init-data in headers
           },
         }
       );
-      console.log("Onboarding response:", response.data);
-      
-      return response.data; // Return the onboarded user data
+      return response.data;
     } catch (error) {
       console.error("Error during onboarding:", error);
       return null;
@@ -30,8 +28,7 @@ const useRegisterUser = (webAppInitData) => {
     const initializeUser = async () => {
       if (webAppInitData) {
         const onBoardedUser = await handleOnBoardedUser(webAppInitData);
-        console.log("onBoardedUser:", onBoardedUser);
-        
+
         if (onBoardedUser?.user?.id) {
           setUser(onBoardedUser.user);
         }
