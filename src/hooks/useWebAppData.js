@@ -1,3 +1,4 @@
+// src/hooks/useWebAppData.js
 import { useEffect, useState } from "react";
 
 const useWebAppData = () => {
@@ -19,7 +20,6 @@ const useWebAppData = () => {
     };
 
     // Capture initData from Telegram Web App
-    // const initData = fetchWebAppInitData();
     const initData = fetchWebAppInitData();
     if (initData) {
       setWebAppInitData(initData);

@@ -1,3 +1,4 @@
+// src/hooks/useRegisterUser.js
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -5,36 +6,42 @@ const useRegisterUser = (webAppInitData) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
-  useEffect(() => {
-    const onboard = async () => {
-      if (!webAppInitData) return;
+  console.log("Sending initData to backend:", webAppInitData);
 
-      try {
-        const res = await axios.post(
-          `${import.meta.env.VITE_API_URL}/api`,
-          {},
-          {
-            headers: {
-              "x-api-key": import.meta.env.VITE_API_KEY,
-              "x-client-id": import.meta.env.VITE_CLIENT_ID,
-              "init-data": webAppInitData,
-            },
-          }
-        );
-        console.log("Onboarding result:", res.data);
-        
-        if (res.data.user) {
-          setUser(res.data.user);
-          setToken(res.data.token);
-          // you could also save to localStorage:
-          // localStorage.setItem("jwt", res.data.token);
+  const handleOnBoarderUser = async (webAppInitData) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api`,
+        {}, // Empty body
+        {
+          headers: {
+            "x-api-key": import.meta.env.VITE_API_KEY,
+            "x-client-id": import.meta.env.VITE_CLIENT_ID,
+            "init-data": webAppInitData, // Send initData in the headers
+          },
         }
-      } catch (err) {
-        console.error("Onboarding failed:", err);
+      );
+
+      console.log("Response from backend:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error during onboarding:", error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const initializeUser = async () => {
+      if (webAppInitData) {
+        const onboardedUser = await handleOnBoarderUser(webAppInitData);
+        if (onboardedUser?.user) {
+          setUser(onboardedUser.user);
+          setToken(onboardedUser.token);
+        }
       }
     };
 
-    onboard();
+    initializeUser();
   }, [webAppInitData]);
 
   return { user, token };
